@@ -252,38 +252,24 @@ service KeyringManagement {
     KeyringMeta GetKeyringMeta ()
 }
 
-struct Interval {
-    1: required i64 from_
-    2: required i64 to_
-}
-
-typedef list<Interval> OutdatedKeys;
+typedef binary KeyData;
 
 struct Key {
-    1: required KeyId key_id
-    2: required binary key
+    1: required KeyData key_data
+    2: required KeyMeta key_meta
 }
 
 struct Keyring {
-    1: required KeyId current_key_id
-    2: required list<Key> keys
+    1: required i64 version
+    2: required KeyId current_key_id
+    3: required map<KeyId, Key> keys
 }
 
 /** Интерфейс для получения ключей */
 service KeyringStorage {
-    /** Возвращает список неактуальных ключей */
-    OutdatedKeys GetOutdatedKeys ()
-        throws (1: InvalidStatus invalid_status)
 
-    /** Возвращает текущий актуальный ключ */
-    Key GetCurrentKey ()
-        throws (1: InvalidStatus invalid_status)
-
-    /** Возвращает ключ по его идентификатору */
-    Key GetKey (1: KeyId key_id)
-        throws (1: InvalidStatus invalid_status)
-
-    /** Возвращает все ключи */
+    /** Возвращает все ключи c метаданными, а также идентификатор текущего ключа */
     Keyring GetKeyring ()
         throws (1: InvalidStatus invalid_status)
+
 }
