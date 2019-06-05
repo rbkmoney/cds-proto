@@ -255,8 +255,8 @@ service KeyringManagement {
 typedef binary KeyData;
 
 struct Key {
-    1: required KeyData key_data
-    2: required KeyMeta key_meta
+    1: required KeyData data
+    2: required KeyMeta meta
 }
 
 struct Keyring {
