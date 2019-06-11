@@ -265,11 +265,15 @@ struct Keyring {
     3: required map<KeyId, Key> keys
 }
 
+struct GetKeyringParams {
+    1: optional KeyId max_known_key_id
+}
+
 /** Интерфейс для получения ключей */
 service KeyringStorage {
 
     /** Возвращает все ключи c метаданными, а также идентификатор текущего ключа */
-    Keyring GetKeyring ()
+    Keyring GetKeyring (1: GetKeyringParams params)
         throws (1: InvalidStatus invalid_status)
 
 }
