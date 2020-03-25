@@ -20,11 +20,6 @@ struct CardData {
     3: optional string cardholder_name
 }
 
-/** TODO убрать, когда исчезнет отличие от CardData */
-struct PutCardData {
-    1: required string pan
-}
-
 struct PutCardResult {
     1: required base.BankCard bank_card
 }
@@ -79,10 +74,8 @@ service Storage {
         throws (1: SessionDataNotFound not_found)
 
     /** Сохранить карточные данные */
-    PutCardResult PutCard (1: PutCardData card_data)
-        throws (
-            1: InvalidCardData invalid
-        )
+    PutCardResult PutCard (1: CardData card_data)
+        throws (1: InvalidCardData invalid)
 
     /** Сохранить сессионные данные */
     void PutSession (1: base.PaymentSessionID session_id, 2: SessionData session_data)
