@@ -20,6 +20,11 @@ struct CardData {
     3: optional string cardholder_name
 }
 
+struct PutCardData {
+    /** Номер карты без пробелов [0-9]{14,19} */
+    1: required string pan
+}
+
 struct PutCardResult {
     1: required base.BankCard bank_card
 }
@@ -74,7 +79,7 @@ service Storage {
         throws (1: SessionDataNotFound not_found)
 
     /** Сохранить карточные данные */
-    PutCardResult PutCard (1: CardData card_data)
+    PutCardResult PutCard (1: PutCardData card_data)
         throws (1: InvalidCardData invalid)
 
     /** Сохранить сессионные данные */
