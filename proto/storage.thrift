@@ -114,6 +114,10 @@ service Storage {
     PaymentSystemToken GetPaymentSystemToken(1: base.Token token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
+    /** Получить данные активного платёжного токена по банковскому токену */
+    PaymentSystemToken GetPaymentSystemTokenByBankCardToken(1: base.Token token)
+        throws (1: PaymentSystemTokenNotFound not_found)
+
     /** Сохранить платёжный токен */
     PutPaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
         throws (1: InvalidPaymentSystemToken invalid)
