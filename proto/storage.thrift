@@ -54,6 +54,25 @@ struct SessionData {
     1: required AuthData auth_data
 }
 
+struct PaymentSystemTokenData {
+    1: required base.PaymentToken tokenID
+    2: required base.EnrollmentID enrollmentID
+    3: required base.PaymentSystem payment_system
+    4: required base.Token bank_card_token
+    5: optional ExpDate exp_date
+    6: optional string pan_account_reference
+    7: optional string last4
+}
+
+struct PaymentSystemToken {
+    1: required base.Token token
+    2: required base.PaymentSystem payment_system
+}
+
+struct PutPaymentSystemTokenResult {
+    1: required PaymentSystemToken payment_system_token
+}
+
 exception InvalidCardData {
     1: optional string reason
 }
@@ -61,6 +80,12 @@ exception InvalidCardData {
 exception CardDataNotFound {}
 
 exception SessionDataNotFound {}
+
+exception PaymentSystemTokenNotFound{}
+
+exception InvalidPaymentSystemToken {
+    1: optional string reason
+}
 
 /**
  * Интерфейс для приложений
@@ -85,4 +110,11 @@ service Storage {
     /** Сохранить сессионные данные */
     void PutSession (1: base.PaymentSessionID session_id, 2: SessionData session_data)
 
+    /** Получить данные платёжного токена */
+    PaymentSystemToken GetPaymentSystemToken(1: base.Token token)
+        throws (1: PaymentSystemTokenNotFound not_found)
+
+    /** Сохранить платёжный токен */
+    PutPaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
+        throws (1: InvalidPaymentSystemToken invalid)
 }
