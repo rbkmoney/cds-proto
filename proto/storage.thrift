@@ -54,6 +54,16 @@ struct SessionData {
     1: required AuthData auth_data
 }
 
+/**
+* Статус токена МПС
+**/
+enum TokenStatus {
+    inactive
+    active
+    suspended
+    deleted
+}
+
 struct PaymentSystemTokenData {
     /**
     * Токен МПС:
@@ -77,19 +87,24 @@ struct PaymentSystemTokenData {
     3: required base.PaymentSystem payment_system
 
     /**
+    * Статус токена
+    **/
+    4: required TokenStatus status
+
+    /**
     * Токен банковской карты, для которого выписан токен МПС
     **/
-    4: required base.Token bank_card_token
+    5: required base.Token bank_card_token
 
     /**
     * Дата экспирации токена
     **/
-    5: optional ExpDate exp_date
+    6: optional ExpDate exp_date
 
     /**
     * Уникальный идентификатор карты в МПС (аналоги и замена PAN)
     **/
-    6: optional string pan_account_reference
+    7: optional string pan_account_reference
 }
 
 struct PaymentSystemToken {
