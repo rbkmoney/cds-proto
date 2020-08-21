@@ -55,13 +55,41 @@ struct SessionData {
 }
 
 struct PaymentSystemTokenData {
+    /**
+    * Токен МПС:
+    * - VISA: vProvisionedTokenID
+    * - MASTERCARD: tokenUniqueReference
+    * - NSPKMIR: tokenNumber
+    **/
     1: required base.PaymentToken tokenID
+
+    /**
+    * Энролмент МПС:
+    * - VISA: vPanEnrollmentID
+    * - MASTERCARD: panUniqueReference
+    * - NSPKMIR: subscriptionID (?)
+    **/
     2: required base.EnrollmentID enrollmentID
+
+    /**
+    * Идентификатор МПС
+    **/
     3: required base.PaymentSystem payment_system
+
+    /**
+    * Токен банковской карты, для которого выписан токен МПС
+    **/
     4: required base.Token bank_card_token
+
+    /**
+    * Дата экспирации токена
+    **/
     5: optional ExpDate exp_date
+
+    /**
+    * Уникальный идентификатор карты в МПС (аналоги и замена PAN)
+    **/
     6: optional string pan_account_reference
-    7: optional string last4
 }
 
 struct PaymentSystemToken {
@@ -114,7 +142,7 @@ service Storage {
     PaymentSystemToken GetPaymentSystemToken(1: base.Token token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
-    /** Получить данные активного платёжного токена по банковскому токену */
+    /** Получить данные активного платёжного токена по токену банковской карты */
     PaymentSystemToken GetPaymentSystemTokenByBankCardToken(1: base.Token token)
         throws (1: PaymentSystemTokenNotFound not_found)
 
