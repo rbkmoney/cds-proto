@@ -164,4 +164,8 @@ service Storage {
     /** Сохранить платёжный токен */
     PutPaymentSystemTokenResult PutPaymentSystemToken(1: PaymentSystemTokenData payment_system_token)
         throws (1: InvalidPaymentSystemToken invalid)
+
+    /** Обновить статус платёжного токена */
+    void UpdatePaymentSystemTokenStatus(1: base.Token token, 2: TokenStatus status)
+        throws (1: PaymentSystemTokenNotFound not_found)
 }
